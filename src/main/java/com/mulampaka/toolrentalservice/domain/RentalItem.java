@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents the rental line item
+ */
 @Data
 @Builder
 public class RentalItem {
