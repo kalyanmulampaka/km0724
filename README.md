@@ -13,4 +13,4 @@
 # API Documentation
 REST API documentation is available at: http://localhost:8080/swagger-ui/index.html
 # Sample Postman Collection
-[Tool Rental Service API.postman_collection.json](Tool Rental Service API.postman_collection.json)
+[Tool Rental Service API Postman Collection](Tool Rental Service API.postman_collection.json)
