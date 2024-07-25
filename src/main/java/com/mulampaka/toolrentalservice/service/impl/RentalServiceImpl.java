@@ -63,7 +63,9 @@ public class RentalServiceImpl implements RentalService {
                 .id(1)
                 .rental(rental)
                 .build();
-        rentalAgreement.print();
+        if (log.isDebugEnabled()) {
+            rentalAgreement.print();
+        }
         return rentalAgreement;
     }
 }
