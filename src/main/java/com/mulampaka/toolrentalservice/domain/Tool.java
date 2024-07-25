@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class Tool {
     private Integer id;
     private ToolCode toolCode;
-    private ToolType tooltype;
+    private ToolType toolType;
     private String brand;
     private BigDecimal dailyRentalCharge;
     private boolean isWeekdayCharged;

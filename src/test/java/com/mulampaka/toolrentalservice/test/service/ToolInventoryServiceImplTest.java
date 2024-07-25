@@ -39,7 +39,7 @@ public class ToolInventoryServiceImplTest {
     void setUp() {
         Tool chainsaw = Tool.builder().id(1)
                 .toolCode(ToolCode.CHNS)
-                .tooltype(ToolType.CHAINSAW)
+                .toolType(ToolType.CHAINSAW)
                 .brand(ToolBrand.STIHL.getName())
                 .dailyRentalCharge(new BigDecimal("1.49"))
                 .isWeekdayCharged(true)
@@ -50,7 +50,7 @@ public class ToolInventoryServiceImplTest {
 
         Tool ladder = Tool.builder().id(2)
                 .toolCode(ToolCode.LADW)
-                .tooltype(ToolType.LADDER)
+                .toolType(ToolType.LADDER)
                 .brand(ToolBrand.WERNER.getName())
                 .dailyRentalCharge(new BigDecimal("1.99"))
                 .isWeekdayCharged(true)
@@ -61,7 +61,7 @@ public class ToolInventoryServiceImplTest {
 
         Tool jackhammer1 = Tool.builder().id(3)
                 .toolCode(ToolCode.JAKD)
-                .tooltype(ToolType.JACKHAMMER)
+                .toolType(ToolType.JACKHAMMER)
                 .brand(ToolBrand.DEWALT.getName())
                 .dailyRentalCharge(new BigDecimal("2.99"))
                 .isWeekdayCharged(true)
@@ -72,7 +72,7 @@ public class ToolInventoryServiceImplTest {
 
         Tool jackhammer2 = Tool.builder().id(4)
                 .toolCode(ToolCode.JAKR)
-                .tooltype(ToolType.JACKHAMMER)
+                .toolType(ToolType.JACKHAMMER)
                 .brand(ToolBrand.RIDGID.getName())
                 .dailyRentalCharge(new BigDecimal("2.99"))
                 .isWeekdayCharged(true)
