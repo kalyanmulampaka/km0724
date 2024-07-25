@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -34,7 +33,7 @@ public class ToolInventoryServiceImplTest {
     private ToolInventoryRepository toolInventoryRepository;
 
 
-    private final Map<Integer, Tool> mockToolsMap = new HashMap<>();
+    private final Map<ToolCode, Tool> mockToolsMap = new HashMap<>();
 
     @BeforeEach
     void setUp() {
@@ -47,7 +46,8 @@ public class ToolInventoryServiceImplTest {
                 .isWeekendCharged(false)
                 .isHolidayCharged(true)
                 .build();
-        mockToolsMap.put(chainsaw.getId(), chainsaw);
+        mockToolsMap.put(chainsaw.getToolCode(), chainsaw);
+
         Tool ladder = Tool.builder().id(2)
                 .toolCode(ToolCode.LADW)
                 .tooltype(ToolType.LADDER)
@@ -57,7 +57,8 @@ public class ToolInventoryServiceImplTest {
                 .isWeekendCharged(true)
                 .isHolidayCharged(false)
                 .build();
-        mockToolsMap.put(ladder.getId(), ladder);
+        mockToolsMap.put(ladder.getToolCode(), ladder);
+
         Tool jackhammer1 = Tool.builder().id(3)
                 .toolCode(ToolCode.JAKD)
                 .tooltype(ToolType.JACKHAMMER)
@@ -67,7 +68,7 @@ public class ToolInventoryServiceImplTest {
                 .isWeekendCharged(false)
                 .isHolidayCharged(false)
                 .build();
-        mockToolsMap.put(jackhammer1.getId(), jackhammer1);
+        mockToolsMap.put(jackhammer1.getToolCode(), jackhammer1);
 
         Tool jackhammer2 = Tool.builder().id(4)
                 .toolCode(ToolCode.JAKR)
@@ -78,7 +79,7 @@ public class ToolInventoryServiceImplTest {
                 .isWeekendCharged(false)
                 .isHolidayCharged(false)
                 .build();
-        mockToolsMap.put(jackhammer2.getId(), jackhammer2);
+        mockToolsMap.put(jackhammer2.getToolCode(), jackhammer2);
     }
 
     @Test
@@ -91,10 +92,10 @@ public class ToolInventoryServiceImplTest {
     }
 
     @Test
-    public void testGetToolsByIds () throws Exception {
-        when(this.toolInventoryRepository.getToolsByIds(List.of(1,2))).thenReturn(List.of(this.mockToolsMap.get(1), this.mockToolsMap.get(2)));
-        Collection<Tool> expected = List.of (this.mockToolsMap.get(1), this.mockToolsMap.get(2));
-        Collection<Tool> actual = this.toolInventoryServiceUnderTest.getToolsByIds(List.of(1,2));
+    public void testGetToolsByCodes () throws Exception {
+        when(this.toolInventoryRepository.getToolsByCodes(List.of(ToolCode.CHNS.name(), ToolCode.LADW.name()))).thenReturn(List.of(this.mockToolsMap.get(ToolCode.CHNS), this.mockToolsMap.get(ToolCode.LADW)));
+        Collection<Tool> expected = List.of(this.mockToolsMap.get(ToolCode.CHNS), this.mockToolsMap.get(ToolCode.LADW));
+        Collection<Tool> actual = this.toolInventoryServiceUnderTest.getToolsByCodes(List.of(ToolCode.CHNS.name(), ToolCode.LADW.name()));
         assertNotNull(actual);
         assertEquals(expected, actual);
     }

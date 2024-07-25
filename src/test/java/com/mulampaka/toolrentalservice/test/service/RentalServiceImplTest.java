@@ -96,7 +96,7 @@ public class RentalServiceImplTest {
         LocalDate checkoutDate = LocalDate.of(2024, Month.SEPTEMBER, 18);
         Cart cart = Cart.builder()
                 .rentalDays(2)
-                .toolIds(List.of(1,2))
+                .toolCodes(List.of(ToolCode.CHNS.name(), ToolCode.LADW.name()))
                 .discountPercent(10)
                 .checkoutDate(checkoutDate).build();
         RentalItem rentalItem1 = RentalItem.builder().chargeDays(2).tool(this.mockToolsMap.get(1)).build();
@@ -115,7 +115,7 @@ public class RentalServiceImplTest {
                 .finalCharge(new BigDecimal(6.26))
                 .build();
 
-        when(this.toolInventoryService.getToolsByIds(List.of(1,2))).thenReturn(tools);
+        when(this.toolInventoryService.getToolsByCodes(List.of(ToolCode.CHNS.name(), ToolCode.LADW.name()))).thenReturn(tools);
         when(this.pricingService.calculateRentalCharge(cart, tools)).thenReturn(rental);
         RentalAgreement expected = RentalAgreement.builder().id(1).rental(rental).build();
         RentalAgreement actual = this.rentalServiceUnderTest.checkout(cart);
@@ -130,7 +130,7 @@ public class RentalServiceImplTest {
         LocalDate checkoutDate = LocalDate.of(2025, Month.JULY, 4);
         Cart cart = Cart.builder()
                 .rentalDays(1)
-                .toolIds(List.of(2))
+                .toolCodes(List.of(ToolCode.LADW.name()))
                 .discountPercent(10)
                 .checkoutDate(checkoutDate).build();
         RentalItem rentalItem2 = RentalItem.builder().chargeDays(2).tool(this.mockToolsMap.get(2)).build();
@@ -148,7 +148,7 @@ public class RentalServiceImplTest {
                 .finalCharge(new BigDecimal(0.00))
                 .build();
 
-        when(this.toolInventoryService.getToolsByIds(List.of(2))).thenReturn(tools);
+        when(this.toolInventoryService.getToolsByCodes(List.of(ToolCode.LADW.name()))).thenReturn(tools);
         when(this.pricingService.calculateRentalCharge(cart, tools)).thenReturn(rental);
         RentalAgreement expected = RentalAgreement.builder().id(1).rental(rental).build();
         RentalAgreement actual = this.rentalServiceUnderTest.checkout(cart);
@@ -162,7 +162,7 @@ public class RentalServiceImplTest {
         LocalDate checkoutDate = LocalDate.of(2024, Month.SEPTEMBER, 2);
         Cart cart = Cart.builder()
                 .rentalDays(1)
-                .toolIds(List.of(2))
+                .toolCodes(List.of(ToolCode.LADW.name()))
                 .discountPercent(10)
                 .checkoutDate(checkoutDate).build();
 
@@ -181,7 +181,7 @@ public class RentalServiceImplTest {
                 .finalCharge(new BigDecimal(0.00))
                 .build();
 
-        when(this.toolInventoryService.getToolsByIds(List.of(2))).thenReturn(tools);
+        when(this.toolInventoryService.getToolsByCodes(List.of(ToolCode.LADW.name()))).thenReturn(tools);
         when(this.pricingService.calculateRentalCharge(cart, tools)).thenReturn(rental);
         RentalAgreement expected = RentalAgreement.builder().id(1).rental(rental).build();
         RentalAgreement actual = this.rentalServiceUnderTest.checkout(cart);

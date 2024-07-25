@@ -21,7 +21,7 @@ public class Cart {
 
     @JsonFormat(pattern = "MM-dd-yyyy", timezone = Constants.DEFAULT_TIMEZONE)
     private LocalDate checkoutDate;
-    private List<Integer> toolIds;
+    private List<String> toolCodes;
     private Integer rentalDays;
     private Integer discountPercent;
 }

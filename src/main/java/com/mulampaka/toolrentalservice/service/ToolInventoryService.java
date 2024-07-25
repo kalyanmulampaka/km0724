@@ -19,10 +19,10 @@ public interface ToolInventoryService {
     Collection<Tool> getAvailableTools(SearchRequest searchRequest);
 
     /**
-     * Returns the Tool objects for the specified tool identifiers
-     * @param toolIds List<Integer>
+     * Returns the Tool objects for the specified tool codes
+     * @param toolCodes List<String>
      * @return Collection<Tool>
      * @throws ToolRentalException for validation errors
      */
-    Collection<Tool> getToolsByIds(List<Integer> toolIds);
+    Collection<Tool> getToolsByCodes(List<String> toolCodes);
 }

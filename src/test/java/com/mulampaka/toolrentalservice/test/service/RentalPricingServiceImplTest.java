@@ -25,7 +25,8 @@ public class RentalPricingServiceImplTest {
     @InjectMocks
     private RentalPricingServiceImpl pricingServiceUnderTest;
 
-    private final Map<Integer, Tool> mockToolsMap = new HashMap<>();
+    private final Map<ToolCode, Tool> mockToolsMap = new HashMap<>();
+
 
     @BeforeEach
     void setUp() {
@@ -38,7 +39,8 @@ public class RentalPricingServiceImplTest {
                 .isWeekendCharged(false)
                 .isHolidayCharged(true)
                 .build();
-        mockToolsMap.put(chainsaw.getId(), chainsaw);
+        mockToolsMap.put(chainsaw.getToolCode(), chainsaw);
+
         Tool ladder = Tool.builder().id(2)
                 .toolCode(ToolCode.LADW)
                 .tooltype(ToolType.LADDER)
@@ -48,7 +50,8 @@ public class RentalPricingServiceImplTest {
                 .isWeekendCharged(true)
                 .isHolidayCharged(false)
                 .build();
-        mockToolsMap.put(ladder.getId(), ladder);
+        mockToolsMap.put(ladder.getToolCode(), ladder);
+
         Tool jackhammer1 = Tool.builder().id(3)
                 .toolCode(ToolCode.JAKD)
                 .tooltype(ToolType.JACKHAMMER)
@@ -58,7 +61,7 @@ public class RentalPricingServiceImplTest {
                 .isWeekendCharged(false)
                 .isHolidayCharged(false)
                 .build();
-        mockToolsMap.put(jackhammer1.getId(), jackhammer1);
+        mockToolsMap.put(jackhammer1.getToolCode(), jackhammer1);
 
         Tool jackhammer2 = Tool.builder().id(4)
                 .toolCode(ToolCode.JAKR)
@@ -69,7 +72,7 @@ public class RentalPricingServiceImplTest {
                 .isWeekendCharged(false)
                 .isHolidayCharged(false)
                 .build();
-        mockToolsMap.put(jackhammer2.getId(), jackhammer2);
+        mockToolsMap.put(jackhammer2.getToolCode(), jackhammer2);
     }
 
 
@@ -78,11 +81,11 @@ public class RentalPricingServiceImplTest {
         LocalDate checkoutDate = LocalDate.of(2024, Month.AUGUST, 5);
         Cart cart = Cart.builder()
                 .rentalDays(2)
-                .toolIds(List.of(1,2))
+                .toolCodes(List.of(ToolCode.CHNS.name(), ToolCode.LADW.name()))
                 .discountPercent(10)
                 .checkoutDate(checkoutDate).build();
-        RentalItem rentalItem1 = RentalItem.builder().chargeDays(2).tool(this.mockToolsMap.get(1)).build();
-        RentalItem rentalItem2 = RentalItem.builder().chargeDays(2).tool(this.mockToolsMap.get(2)).build();
+        RentalItem rentalItem1 = RentalItem.builder().chargeDays(2).tool(this.mockToolsMap.get(ToolCode.CHNS)).build();
+        RentalItem rentalItem2 = RentalItem.builder().chargeDays(2).tool(this.mockToolsMap.get(ToolCode.LADW)).build();
         List<RentalItem> items = List.of (rentalItem1, rentalItem2);
 
 
@@ -97,7 +100,7 @@ public class RentalPricingServiceImplTest {
                 .finalCharge(new BigDecimal(6.26).setScale(2, RoundingMode.CEILING))
                 .build();
 
-        Rental actual = this.pricingServiceUnderTest.calculateRentalCharge(cart, List.of(this.mockToolsMap.get(1), this.mockToolsMap.get(2)));
+        Rental actual = this.pricingServiceUnderTest.calculateRentalCharge(cart, List.of(this.mockToolsMap.get(ToolCode.CHNS), this.mockToolsMap.get(ToolCode.LADW)));
         assertNotNull(actual);
         assertEquals(expected, actual);
     }

@@ -40,7 +40,7 @@ public class RentalServiceImpl implements RentalService {
      */
     @Override
     public RentalAgreement checkout(Cart cart) {
-        Collection<Tool> tools = this.toolInventoryService.getToolsByIds (cart.getToolIds());
+        Collection<Tool> tools = this.toolInventoryService.getToolsByCodes (cart.getToolCodes());
         if (tools.isEmpty()) {
             throw new ToolRentalException("Tools identifiers cannot be empty.");
         } else {

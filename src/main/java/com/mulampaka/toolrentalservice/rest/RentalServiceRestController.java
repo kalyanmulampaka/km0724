@@ -77,7 +77,7 @@ public class RentalServiceRestController {
             @ApiResponse(responseCode = "200", description = "Returns the rental agreement.",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = RentalAgreement.class)) }),
-            @ApiResponse(responseCode = "400", description = "One of the Validation errors: Checkout Date cannot be in the past. Invalid Checkout Date. Invalid Discount Percent. Valid Discount Percent Range:0-100. Rental days must be greater than 0. Tools identifiers cannot be empty. Invalid Tool Identifiers.",
+            @ApiResponse(responseCode = "400", description = "One of the Validation errors: Checkout Date cannot be in the past. Invalid Checkout Date. Invalid Discount Percent. Valid Discount Percent Range:0-100. Rental days must be greater than 0. Tools Codes cannot be empty. Invalid Tool Codes.",
                     content = { @Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "500", description = "Error occurred while checkout.",
                     content = { @Content(mediaType = "application/json")})

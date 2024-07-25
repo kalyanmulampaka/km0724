@@ -13,7 +13,7 @@ import java.util.*;
 public class ToolInventoryRepositoryImpl implements ToolInventoryRepository {
 
 
-    private final Map<Integer, Tool> toolsMap = new HashMap<>();
+    private final Map<ToolCode, Tool> toolsMap = new HashMap<>();
 
     @PostConstruct
     public void init () {
@@ -41,7 +41,7 @@ public class ToolInventoryRepositoryImpl implements ToolInventoryRepository {
                 .isWeekendCharged(false)
                 .isHolidayCharged(true)
                 .build();
-        toolsMap.put(chainsaw.getId(), chainsaw);
+        toolsMap.put(chainsaw.getToolCode(), chainsaw);
 
         Tool ladder = Tool.builder().id(2)
                 .toolCode(ToolCode.LADW)
@@ -52,7 +52,7 @@ public class ToolInventoryRepositoryImpl implements ToolInventoryRepository {
                 .isWeekendCharged(true)
                 .isHolidayCharged(false)
                 .build();
-        toolsMap.put(ladder.getId(), ladder);
+        toolsMap.put(ladder.getToolCode(), ladder);
 
         Tool jackhammer1 = Tool.builder().id(3)
                 .toolCode(ToolCode.JAKD)
@@ -63,7 +63,7 @@ public class ToolInventoryRepositoryImpl implements ToolInventoryRepository {
                 .isWeekendCharged(false)
                 .isHolidayCharged(false)
                 .build();
-        toolsMap.put(jackhammer1.getId(), jackhammer1);
+        toolsMap.put(jackhammer1.getToolCode(), jackhammer1);
 
         Tool jackhammer2 = Tool.builder().id(4)
                 .toolCode(ToolCode.JAKR)
@@ -74,25 +74,31 @@ public class ToolInventoryRepositoryImpl implements ToolInventoryRepository {
                 .isWeekendCharged(false)
                 .isHolidayCharged(false)
                 .build();
-        toolsMap.put(jackhammer2.getId(), jackhammer2);
+        toolsMap.put(jackhammer2.getToolCode(), jackhammer2);
 
         return toolsMap.values();
     }
 
     @Override
-    public Collection<Tool> getToolsByIds(List<Integer> toolIds) {
+    public Collection<Tool> getToolsByCodes(List<String> toolCodes) {
         Collection<Tool> tools = new ArrayList<>();
-        List<Integer> invalidIds = new ArrayList<>();
-        for (Integer id :toolIds) {
-            Tool tool = this.toolsMap.get(id);
-            if (tool != null) {
-                tools.add(tool);
-            }  else  {
-                invalidIds.add(id);
+        List<String> invalidCodes = new ArrayList<>();
+        for (String code :toolCodes) {
+            ToolCode toolCode = null;
+            try {
+                toolCode = ToolCode.valueOf(code);
+                Tool tool = this.toolsMap.get(toolCode);
+                if (tool != null) {
+                    tools.add(tool);
+                }  else  {
+                    invalidCodes.add(code);
+                }
+            } catch (Exception e) {
+                invalidCodes.add(code);
             }
         }
-        if (!invalidIds.isEmpty()) {
-            throw new ToolRentalException("Invalid Tool Identifiers:" + invalidIds);
+        if (!invalidCodes.isEmpty()) {
+            throw new ToolRentalException("Invalid Tool Codes:" + invalidCodes);
         }
         return tools;
     }

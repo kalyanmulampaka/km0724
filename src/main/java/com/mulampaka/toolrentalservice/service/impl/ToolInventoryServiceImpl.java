@@ -18,6 +18,8 @@ public class ToolInventoryServiceImpl implements ToolInventoryService {
     @Autowired
     private ToolInventoryRepository toolInventoryRepository;
 
+
+
     /**
      * Returns the available tools with the specified search parameters
      * @param searchRequest SearchRequest for pagination of results
@@ -29,13 +31,16 @@ public class ToolInventoryServiceImpl implements ToolInventoryService {
     }
 
     /**
-     * Returns the tools with the specified identifiers
-     * @param toolIds List<Integer>
+     * Returns the tools with the specified tool codes
+     * @param toolCodes List<String>
      * @return Collection<Tool>
      * @throws ToolRentalException for validation errors
      */
     @Override
-    public Collection<Tool> getToolsByIds(List<Integer> toolIds) {
-        return this.toolInventoryRepository.getToolsByIds(toolIds);
+    public Collection<Tool> getToolsByCodes(List<String> toolCodes) {
+        return this.toolInventoryRepository.getToolsByCodes(toolCodes);
     }
+
+
+
 }
