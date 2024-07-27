@@ -14,7 +14,6 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -79,28 +78,30 @@ public class RentalPricingServiceImplTest {
     @Test
     public void testCalculateRentalCharge () throws Exception {
         LocalDate checkoutDate = LocalDate.of(2024, Month.AUGUST, 5);
-        Cart cart = Cart.builder()
-                .rentalDays(2)
-                .toolCodes(List.of(ToolCode.CHNS.name(), ToolCode.LADW.name()))
+
+        CartItem item1 = CartItem.builder()
+                .checkoutDate(checkoutDate)
                 .discountPercent(10)
-                .checkoutDate(checkoutDate).build();
-        RentalItem rentalItem1 = RentalItem.builder().chargeDays(2).tool(this.mockToolsMap.get(ToolCode.CHNS)).build();
-        RentalItem rentalItem2 = RentalItem.builder().chargeDays(2).tool(this.mockToolsMap.get(ToolCode.LADW)).build();
-        List<RentalItem> items = List.of (rentalItem1, rentalItem2);
+                .rentalDays(2)
+                .toolCode(ToolCode.CHNS.name())
+                .build();
 
-
-        Rental expected = Rental.builder()
+        BigDecimal preDiscountCharge = new BigDecimal(2.98).setScale(2, RoundingMode.CEILING);
+        BigDecimal discountAmount = new BigDecimal(0.30).setScale(2, RoundingMode.CEILING);
+        BigDecimal finalCharge = preDiscountCharge.subtract(discountAmount).setScale(2, RoundingMode.CEILING);
+        RentalItem expected = RentalItem.builder()
+                .tool(this.mockToolsMap.get(ToolCode.CHNS))
                 .rentalDays(2)
                 .checkoutDate(checkoutDate)
                 .discountPercent(10)
                 .dueDate(checkoutDate.plusDays(1))
-                .items(items)
-                .preDiscountCharge(new BigDecimal(6.96).setScale(2, RoundingMode.CEILING))
-                .discountAmount(new BigDecimal(0.70).setScale(2, RoundingMode.CEILING))
-                .finalCharge(new BigDecimal(6.26).setScale(2, RoundingMode.CEILING))
+                .chargeDays(2)
+                .preDiscountCharge(preDiscountCharge)
+                .discountAmount(discountAmount)
+                .finalCharge(finalCharge)
                 .build();
 
-        Rental actual = this.pricingServiceUnderTest.calculateRentalCharge(cart, List.of(this.mockToolsMap.get(ToolCode.CHNS), this.mockToolsMap.get(ToolCode.LADW)));
+        RentalItem actual = this.pricingServiceUnderTest.calculateRentalCharge(item1, this.mockToolsMap.get(ToolCode.CHNS));
         assertNotNull(actual);
         assertEquals(expected, actual);
     }

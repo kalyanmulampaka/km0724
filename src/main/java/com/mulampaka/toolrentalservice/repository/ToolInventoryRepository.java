@@ -12,5 +12,5 @@ import java.util.List;
 public interface ToolInventoryRepository {
     Collection<Tool> getAvailableTools(SearchRequest searchRequest);
 
-    Collection<Tool> getToolsByCodes(List<String> toolCodes);
+    Tool getToolByCode(String toolCode);
 }

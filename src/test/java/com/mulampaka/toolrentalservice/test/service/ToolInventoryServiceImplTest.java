@@ -17,7 +17,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -92,10 +91,10 @@ public class ToolInventoryServiceImplTest {
     }
 
     @Test
-    public void testGetToolsByCodes () throws Exception {
-        when(this.toolInventoryRepository.getToolsByCodes(List.of(ToolCode.CHNS.name(), ToolCode.LADW.name()))).thenReturn(List.of(this.mockToolsMap.get(ToolCode.CHNS), this.mockToolsMap.get(ToolCode.LADW)));
-        Collection<Tool> expected = List.of(this.mockToolsMap.get(ToolCode.CHNS), this.mockToolsMap.get(ToolCode.LADW));
-        Collection<Tool> actual = this.toolInventoryServiceUnderTest.getToolsByCodes(List.of(ToolCode.CHNS.name(), ToolCode.LADW.name()));
+    public void testGetToolByCode () throws Exception {
+        when(this.toolInventoryRepository.getToolByCode(ToolCode.CHNS.name())).thenReturn(this.mockToolsMap.get(ToolCode.CHNS));
+        Tool expected = this.mockToolsMap.get(ToolCode.CHNS);
+        Tool actual = this.toolInventoryServiceUnderTest.getToolByCode(ToolCode.CHNS.name());
         assertNotNull(actual);
         assertEquals(expected, actual);
     }

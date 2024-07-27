@@ -5,7 +5,6 @@ import com.mulampaka.toolrentalservice.domain.Tool;
 import com.mulampaka.toolrentalservice.exception.ToolRentalException;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * ToolInventoryService provides methods to manage tool inventory.
@@ -19,10 +18,10 @@ public interface ToolInventoryService {
     Collection<Tool> getAvailableTools(SearchRequest searchRequest);
 
     /**
-     * Returns the Tool objects for the specified tool codes
-     * @param toolCodes List<String>
-     * @return Collection<Tool>
+     * Returns the Tool object for the specified tool code
+     * @param toolCode String
+     * @return Tool
      * @throws ToolRentalException for validation errors
      */
-    Collection<Tool> getToolsByCodes(List<String> toolCodes);
+    Tool getToolByCode(String toolCode);
 }

@@ -80,27 +80,16 @@ public class ToolInventoryRepositoryImpl implements ToolInventoryRepository {
     }
 
     @Override
-    public Collection<Tool> getToolsByCodes(List<String> toolCodes) {
-        Collection<Tool> tools = new ArrayList<>();
-        List<String> invalidCodes = new ArrayList<>();
-        for (String code :toolCodes) {
-            ToolCode toolCode = null;
-            try {
-                toolCode = ToolCode.valueOf(code);
-                Tool tool = this.toolsMap.get(toolCode);
-                if (tool != null) {
-                    tools.add(tool);
-                }  else  {
-                    invalidCodes.add(code);
-                }
-            } catch (Exception e) {
-                invalidCodes.add(code);
+    public Tool getToolByCode(String toolCode) {
+        try {
+            Tool tool = this.toolsMap.get(ToolCode.valueOf(toolCode.toUpperCase()));
+            if (tool == null) {
+                throw new ToolRentalException("Invalid Tool Code:" + toolCode);
             }
+            return tool;
+        } catch (Exception e) {
+            throw new ToolRentalException("Invalid Tool Code:" + toolCode);
         }
-        if (!invalidCodes.isEmpty()) {
-            throw new ToolRentalException("Invalid Tool Codes:" + invalidCodes);
-        }
-        return tools;
     }
 
 

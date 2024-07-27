@@ -1,12 +1,8 @@
 package com.mulampaka.toolrentalservice.rest;
 
-import com.mulampaka.toolrentalservice.domain.Cart;
-import com.mulampaka.toolrentalservice.domain.RentalAgreement;
-import com.mulampaka.toolrentalservice.domain.SearchRequest;
-import com.mulampaka.toolrentalservice.domain.Tool;
+import com.mulampaka.toolrentalservice.domain.*;
 import com.mulampaka.toolrentalservice.exception.ToolRentalException;
 import com.mulampaka.toolrentalservice.service.RentalService;
-import com.mulampaka.toolrentalservice.util.DateUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,13 +10,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.Collection;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -87,7 +82,7 @@ public class RentalServiceRestController {
         log.debug("Request received to checkout for cart:{}", cart);
         try {
             this.validateCart(cart);
-            RentalAgreement rentalAgreement = this.rentalService.checkout(cart);
+            List<RentalAgreement> rentalAgreement = this.rentalService.checkout(cart);
             return ResponseEntity.ok(rentalAgreement);
         } catch (ToolRentalException tre) {
             return ResponseEntity.badRequest().body(tre.getMessage());
@@ -102,15 +97,17 @@ public class RentalServiceRestController {
      * @throws ToolRentalException for validation errors
      */
     private void validateCart (Cart cart) {
-        if (cart.getCheckoutDate().isBefore(LocalDate.now())) {
-            throw new ToolRentalException("Checkout Date cannot be in the past. Invalid Checkout Date:" + cart.getCheckoutDate());
-        }
-        Integer discountPercent = cart.getDiscountPercent();
-        if (discountPercent != null && (discountPercent < 0 || discountPercent > 100)) {
-            throw new ToolRentalException("Invalid Discount Percent:" + discountPercent + ". Valid Discount Percent Range:0-100");
-        }
-        if (cart.getRentalDays() < 1) {
-            throw new ToolRentalException("Rental days must be greater than 0.");
+        for (CartItem cartItem : cart.getCartItems()) {
+            if (cartItem.getCheckoutDate().isBefore(LocalDate.now())) {
+                throw new ToolRentalException("Tool Code:" + cartItem.getToolCode() + ", Checkout Date cannot be in the past. Invalid Checkout Date:" + cartItem.getCheckoutDate());
+            }
+            Integer discountPercent = cartItem.getDiscountPercent();
+            if (discountPercent != null && (discountPercent < 0 || discountPercent > 100)) {
+                throw new ToolRentalException("Tool Code:" + cartItem.getToolCode() + ", Invalid Discount Percent:" + discountPercent + ". Valid Discount Percent Range:0-100");
+            }
+            if (cartItem.getRentalDays() < 1) {
+                throw new ToolRentalException("Tool Code:" + cartItem.getToolCode() + ", Rental days must be greater than 0.");
+            }
         }
     }
 }

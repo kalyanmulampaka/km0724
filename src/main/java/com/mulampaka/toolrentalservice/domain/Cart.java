@@ -18,10 +18,5 @@ import java.util.List;
 @Builder
 @Jacksonized
 public class Cart {
-
-    @JsonFormat(pattern = "MM-dd-yyyy", timezone = Constants.DEFAULT_TIMEZONE)
-    private LocalDate checkoutDate;
-    private List<String> toolCodes;
-    private Integer rentalDays;
-    private Integer discountPercent;
+    List<CartItem> cartItems;
 }

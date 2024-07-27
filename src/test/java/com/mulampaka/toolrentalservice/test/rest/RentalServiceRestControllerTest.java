@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,40 +105,62 @@ public class RentalServiceRestControllerTest {
 
     @Test
     void testCheckoutApi() throws Exception {
-        List<String> toolCodes = List.of(ToolCode.CHNS.name(), ToolCode.LADW.name());
+
         LocalDate checkoutDate = LocalDate.of(2024, Month.SEPTEMBER, 10);
+        List<CartItem> cartItems = new ArrayList<>();
         Cart cart = Cart.builder()
-                .rentalDays(2)
-                .toolCodes(toolCodes)
+                .cartItems(cartItems).build();
+        CartItem item1 = CartItem.builder().checkoutDate(checkoutDate)
                 .discountPercent(10)
-                .checkoutDate(checkoutDate).build();
+                .rentalDays(2)
+                .toolCode(ToolCode.CHNS.name())
+                .build();
+        CartItem item2 = CartItem.builder().checkoutDate(checkoutDate)
+                .discountPercent(10)
+                .rentalDays(2)
+                .toolCode(ToolCode.LADW.name())
+                .build();
 
 
-        RentalItem rentalItem1 = RentalItem.builder().chargeDays(2).tool(this.mockToolsMap.get(ToolCode.CHNS)).build();
-        RentalItem rentalItem2 = RentalItem.builder().chargeDays(2).tool(this.mockToolsMap.get(ToolCode.LADW)).build();
-        List<RentalItem> items = List.of(rentalItem1, rentalItem2);
-        Rental rental = Rental.builder()
+
+
+        RentalItem rentalItem1 = RentalItem.builder()
+                .tool(this.mockToolsMap.get(ToolCode.CHNS))
                 .rentalDays(2)
                 .checkoutDate(checkoutDate)
                 .discountPercent(10)
                 .dueDate(checkoutDate.plusDays(1))
-                .items(items)
                 .preDiscountCharge(new BigDecimal(6.96))
                 .discountAmount(new BigDecimal(0.70))
                 .finalCharge(new BigDecimal(6.26))
                 .build();
 
-        RentalAgreement rentalAgreement = RentalAgreement.builder().id(1).rental(rental).build();
-        when(this.rentalService.checkout(cart)).thenReturn(rentalAgreement);
+        RentalItem rentalItem2 = RentalItem.builder()
+                .tool(this.mockToolsMap.get(ToolCode.LADW))
+                .rentalDays(2)
+                .checkoutDate(checkoutDate)
+                .discountPercent(10)
+                .dueDate(checkoutDate.plusDays(1))
+                .preDiscountCharge(new BigDecimal(6.96))
+                .discountAmount(new BigDecimal(0.70))
+                .finalCharge(new BigDecimal(6.26))
+                .build();
+
+        List<RentalAgreement> rentalAgreements = new ArrayList<>();
+        RentalAgreement rentalAgreement1 = RentalAgreement.builder().id(1).rentalItem(rentalItem1).build();
+        rentalAgreements.add(rentalAgreement1);
+        RentalAgreement rentalAgreement2 = RentalAgreement.builder().id(2).rentalItem(rentalItem2).build();
+        rentalAgreements.add(rentalAgreement2);
+        when(this.rentalService.checkout(cart)).thenReturn(rentalAgreements);
 
         mockMvc.perform(post(API_BASE_URL + "/checkout")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(cart)))
                 .andExpect(status().isOk())
-                .andExpect(content().string(this.objectMapper.writeValueAsString(rentalAgreement)));
+                .andExpect(content().string(this.objectMapper.writeValueAsString(rentalAgreements)));
 
-        rentalAgreement.print();
+        rentalAgreement1.print();
     }
 
 }

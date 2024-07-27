@@ -31,14 +31,14 @@ public class ToolInventoryServiceImpl implements ToolInventoryService {
     }
 
     /**
-     * Returns the tools with the specified tool codes
-     * @param toolCodes List<String>
-     * @return Collection<Tool>
+     * Returns the tool with the specified tool code
+     * @param toolCode String
+     * @return Tool
      * @throws ToolRentalException for validation errors
      */
     @Override
-    public Collection<Tool> getToolsByCodes(List<String> toolCodes) {
-        return this.toolInventoryRepository.getToolsByCodes(toolCodes);
+    public Tool getToolByCode(String toolCode) {
+        return this.toolInventoryRepository.getToolByCode(toolCode);
     }
 
 

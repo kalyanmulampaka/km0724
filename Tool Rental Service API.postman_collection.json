@@ -47,7 +47,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8080/api/checkout",
+			"name": "http://localhost:8080/api/checkout-labor-day",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -59,7 +59,112 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"checkoutDate\" : \"07-26-2025\",\n\"rentalDays\" : 2,\n\"discountPercent\" : 10,\n\"toolCodes\":\n[\n    \"CHNS\", \"JAKR\"\n]\n}",
+					"raw": "{\n    \"cartItems\": [\n        {\n            \"checkoutDate\": \"09-02-2024\",\n            \"rentalDays\": 1,\n            \"discountPercent\": 10,\n            \"toolCode\": \"JAKD\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/checkout-weekdays",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cartItems\": [\n        {\n            \"checkoutDate\": \"08-15-2024\",\n            \"rentalDays\": 2,\n            \"discountPercent\": 10,\n            \"toolCode\": \"JAKD\"\n        },\n        {\n            \"checkoutDate\": \"08-15-2024\",\n            \"rentalDays\": 1,\n            \"discountPercent\": 10,\n            \"toolCode\": \"CHNS\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/checkout-weekend",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cartItems\": [\n        {\n            \"checkoutDate\": \"08-17-2024\",\n            \"rentalDays\": 2,\n            \"discountPercent\": 10,\n            \"toolCode\": \"JAKR\"\n        },\n        {\n            \"checkoutDate\": \"08-17-2024\",\n            \"rentalDays\": 1,\n            \"discountPercent\": 10,\n            \"toolCode\": \"CHNS\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/checkout-independence-day",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cartItems\": [\n        {\n            \"checkoutDate\": \"07-04-2025\",\n            \"rentalDays\": 1,\n            \"discountPercent\": 10,\n            \"toolCode\": \"LADW\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"

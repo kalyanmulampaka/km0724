@@ -7,6 +7,7 @@ import com.mulampaka.toolrentalservice.domain.Tool;
 import com.mulampaka.toolrentalservice.exception.ToolRentalException;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * RentalService is the main service which provides methods to get tools, checkout cart and generated rental agreements.
@@ -20,11 +21,11 @@ public interface RentalService {
     Collection<Tool> getAvailableTools(SearchRequest searchRequest);
 
     /**
-     * Calculates the rental charge and generates a rental agreement for the specified cart
+     * Calculates the rental charge and generates a rental agreement for each tool in the specified cart
      * @param cart Cart
-     * @return RentalAgreement
+     * @return List<RentalAgreement>
      * @throws ToolRentalException for validation errors
      */
-    RentalAgreement checkout (Cart cart);
+    List<RentalAgreement> checkout (Cart cart);
 
 }
