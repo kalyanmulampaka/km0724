@@ -63,9 +63,9 @@ public class RentalServiceRestController {
     }
 
     /**
-     * Checks out the specified cart - calculates the rental charge and generates a rental agreement
+     * Checks out the specified cart - calculates the rental charge and generates a rental agreement for each tool
      * @param cart Cart
-     * @return RentalAgreement
+     * @return List<RentalAgreement>
      */
     @Operation(summary = "Checkout the cart")
     @ApiResponses(value = {
